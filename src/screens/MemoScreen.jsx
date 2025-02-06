@@ -1,0 +1,101 @@
+import { useEffect, useState } from 'react';
+import {
+  Alert,
+  Keyboard,
+  StyleSheet,
+  TextInput,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
+import MaterialButton from '../components/UI/MaterialButton';
+import EditMemoModal from '../components/Modal/EditMemoModal';
+import { useNoteActions } from '../util/useNoteActions';
+
+export default function MemoScreen({ id, title, content, remove }) {
+  const [memo, setMemo] = useState(content);
+  const [modalVisible, setModalVisible] = useState(false);
+  const navigation = useNavigation();
+
+  const { deleteMemo } = useNoteActions();
+
+  function editMemo() {
+    setModalVisible((visible) => !visible);
+  }
+
+  function deleteData(id) {
+    deleteMemo(id);
+    navigation.goBack();
+  }
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <>
+          <MaterialButton
+            iconName='delete'
+            iconSize={32}
+            iconColor='black'
+            onPress={deleteData(id)}
+          />
+          <MaterialButton
+            iconName='edit'
+            iconSize={32}
+            iconColor='black'
+            onPress={editMemo}
+          />
+        </>
+      ),
+    });
+  }, [navigation]);
+
+  return (
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+        <View>
+          <View>
+            <EditMemoModal
+              id={id}
+              title={title}
+              content={content}
+              modalVisible={modalVisible}
+              setModalVisible={setModalVisible}
+            />
+          </View>
+          <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <View style={styles.textInputContainer}>
+              <TextInput
+                style={styles.textinput}
+                onChangeText={(memo) => setMemo(memo)}
+                value={memo}
+                multiline
+                placeholder='入力...'
+                returnKeyLabel='改行'
+              />
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+      </SafeAreaView>
+    </SafeAreaProvider>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
+  textInputContainer: {
+    margin: 10,
+    // backgroundColor: 'green',
+  },
+  textinput: {
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
+  modalContainer: {
+    flex: 1,
+    marginTop: 22,
+  },
+});
