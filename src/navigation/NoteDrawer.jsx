@@ -10,11 +10,11 @@ const Drawer = createDrawerNavigator();
 
 export default function NoteDrawer() {
   const [drawers, setDrawers] = useState([]);
-  const { readMemo, deleteMemo } = useNoteActions();
+  const { readMemo, deleteMemo } = useNoteActions(readData);
 
   useEffect(() => {
     readData();
-  }, []);
+  }, [readData]);
 
   async function readData() {
     const getDrawers = await readMemo();

@@ -1,19 +1,12 @@
 import { useEffect, useState } from 'react';
-import {
-  Alert,
-  Keyboard,
-  StyleSheet,
-  TextInput,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import { Keyboard, StyleSheet, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import MaterialButton from '../components/UI/MaterialButton';
 import EditMemoModal from '../components/Modal/EditMemoModal';
 import { useNoteActions } from '../util/useNoteActions';
 
-export default function MemoScreen({ id, title, content, remove }) {
+export default function MemoScreen({ id, title, content }) {
   const [memo, setMemo] = useState(content);
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
@@ -24,9 +17,15 @@ export default function MemoScreen({ id, title, content, remove }) {
     setModalVisible((visible) => !visible);
   }
 
-  function deleteData(id) {
-    deleteMemo(id);
-    navigation.goBack();
+  async function deleteData(id) {
+    try {
+      const deletionResult = await deleteMemo(id);
+      if (deletionResult) {
+        navigation.goBack();
+      }
+    } catch (error) {
+      console.log('エラーが発生しました:', error);
+    }
   }
 
   useEffect(() => {
@@ -37,13 +36,13 @@ export default function MemoScreen({ id, title, content, remove }) {
             iconName='delete'
             iconSize={32}
             iconColor='black'
-            onPress={deleteData(id)}
+            onPress={() => deleteData(id)}
           />
           <MaterialButton
             iconName='edit'
             iconSize={32}
             iconColor='black'
-            onPress={editMemo}
+            onPress={() => editMemo()}
           />
         </>
       ),

@@ -15,7 +15,7 @@ import app from '../../firebase';
 import { Alert } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 
-export const useNoteActions = () => {
+export const useNoteActions = (onChange: Function) => {
   const [loading, setLoading] = useState(false);
 
   const readMemo = async () => {
@@ -53,9 +53,8 @@ export const useNoteActions = () => {
         Alert.alert('エラー', '同じタイトルのメモがすでに存在します');
         return;
       }
-
       await set(newNoteRef, { title, content });
-
+      onChange && onChange();
       showMessage({
         message: '保存に成功しました！',
         type: 'success',
@@ -69,44 +68,50 @@ export const useNoteActions = () => {
     }
   };
 
-  const deleteMemo = async (id: string) => {
+  const deleteMemo = (id: string) => {
     const db = getDatabase(app);
     const dataRef = ref(db, `/notes/${id}`);
-    try {
+    return new Promise<boolean>((resolve) => {
       Alert.alert('削除', 'メモを削除しますか？', [
         {
           text: 'キャンセル',
           style: 'cancel',
+          onPress: () => {
+            resolve(false);
+          },
         },
         {
           text: '削除',
           style: 'destructive',
-          onPress: () => {
-            remove(dataRef);
-            showMessage({
-              message: '削除に成功しました',
-              type: 'success',
-            });
+          onPress: async () => {
+            try {
+              await remove(dataRef);
+              showMessage({
+                message: '削除に成功しました',
+                type: 'success',
+              });
+              resolve(true);
+            } catch (error) {
+              showMessage({
+                message: 'エラーが発生しました',
+                type: 'danger',
+              });
+            }
           },
         },
       ]);
-    } catch (error) {
-      showMessage({
-        message: 'エラーが発生しました',
-        type: 'danger',
-      });
-      console.log('Error deleting data:', error);
-    }
+    });
   };
 
   const updateMemo = async (id: string, newTitle: string, newContent: string) => {
     const db = getDatabase(app);
     const dataRef = ref(db, `/notes/${id}`);
     try {
-      update(dataRef, {
+      await update(dataRef, {
         title: newTitle,
         content: newContent,
       });
+      onChange && onChange();
       showMessage({
         message: '更新に成功しました！',
         type: 'success',
@@ -120,5 +125,5 @@ export const useNoteActions = () => {
     }
   };
 
-  return { readMemo, addMemo, deleteMemo, updateMemo, loading };
+  return { readMemo, addMemo, deleteMemo, updateMemo };
 };
