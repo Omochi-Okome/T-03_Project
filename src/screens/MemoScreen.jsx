@@ -30,6 +30,7 @@ export default function MemoScreen({ id, title, content }) {
 
   useEffect(() => {
     navigation.setOptions({
+      headerTitle: '',
       headerRight: () => (
         <>
           <MaterialButton
