@@ -6,12 +6,12 @@ import MaterialButton from '../components/UI/MaterialButton';
 import EditMemoModal from '../components/Modal/EditMemoModal';
 import { useNoteActions } from '../util/useNoteActions';
 
-export default function MemoScreen({ id, title, content }) {
+export default function MemoScreen({ id, title, content, onChange }) {
   const [memo, setMemo] = useState(content);
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
 
-  const { deleteMemo } = useNoteActions();
+  const { deleteMemo } = useNoteActions(onChange);
 
   function editMemo() {
     setModalVisible((visible) => !visible);
@@ -54,15 +54,13 @@ export default function MemoScreen({ id, title, content }) {
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
         <View>
-          <View>
-            <EditMemoModal
-              id={id}
-              title={title}
-              content={content}
-              modalVisible={modalVisible}
-              setModalVisible={setModalVisible}
-            />
-          </View>
+          <EditMemoModal
+            id={id}
+            title={title}
+            content={content}
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+          />
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={styles.textInputContainer}>
               <TextInput
@@ -88,7 +86,6 @@ const styles = StyleSheet.create({
   },
   textInputContainer: {
     margin: 10,
-    // backgroundColor: 'green',
   },
   textinput: {
     fontSize: 22,

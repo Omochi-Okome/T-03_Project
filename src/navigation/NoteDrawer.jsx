@@ -14,12 +14,17 @@ export default function NoteDrawer() {
 
   useEffect(() => {
     readData();
-  }, [readData]);
+  }, []);
 
   async function readData() {
     const getDrawers = await readMemo();
     setDrawers(getDrawers);
   }
+
+  // const readData = useCallback(async () => {
+  //   const getDrawers = await readMemo();
+  //   setDrawers(getDrawers);
+  // }, [readMemo]);
 
   return (
     <Drawer.Navigator
@@ -58,7 +63,7 @@ export default function NoteDrawer() {
       {drawers.map((drawer) => (
         <Drawer.Screen
           key={drawer.id}
-          name={drawer.title || 'タイトルなし'}
+          name={drawer.title || `タイトルなし-${drawer.id}`}
           children={(props) => (
             <MemoScreen
               {...props}
@@ -66,9 +71,11 @@ export default function NoteDrawer() {
               title={drawer.title}
               content={drawer.content}
               remove={deleteMemo}
+              onChange={readData}
             />
           )}
           options={{
+            drawerLabel: drawer.title || `タイトルなし-${drawer.id}`,
             drawerIcon: ({ focused }) => (
               <MaterialIcons
                 name='description'

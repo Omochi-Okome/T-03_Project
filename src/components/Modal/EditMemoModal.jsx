@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import {
-  Alert,
   Keyboard,
+  KeyboardAvoidingView,
   Modal,
+  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -10,7 +11,6 @@ import {
   View,
   TextInput,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNoteActions } from '../../util/useNoteActions';
 
 // FIXME:更新後、再レンダリングがなされるよう修正する
@@ -21,68 +21,76 @@ export default function EditMemoModal({ id, title, content, modalVisible, setMod
 
   const { updateMemo } = useNoteActions();
 
-  async function changeMemo(id, newTitle, newContent) {
-    await updateMemo(id, newTitle, newContent);
+  function changeMemo(id, newTitle, newContent) {
+    updateMemo(id, newTitle, newContent);
     setModalVisible((visible) => !visible);
   }
 
   return (
-    <Modal
-      animationType='fade'
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => {
-        Alert.alert('Modal has been closed.');
-        setModalVisible(!modalVisible);
-      }}
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <SafeAreaView style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>タイトル</Text>
-            <TextInput
-              style={styles.inputTitle}
-              value={newTitle}
-              onChangeText={(title) => setNewTitle(title)}
-            />
-            <Text style={styles.modalText}>内容</Text>
-            <TextInput
-              style={styles.inputContent}
-              value={newContent}
-              onChangeText={(content) => setNewContent(content)}
-              multiline
-              textAlignVertical='top'
-            />
-            <View style={styles.buttonContainer}>
-              <Pressable
-                onPress={() => setModalVisible(!modalVisible)}
-                style={styles.button}
-              >
-                <Text style={styles.textStyle}>キャンセル</Text>
-              </Pressable>
-              <Pressable
-                onPress={() => changeMemo(id, newTitle, newContent)}
-                style={[styles.button, styles.buttonSave]}
-              >
-                <Text style={styles.textStyle}>変更</Text>
-              </Pressable>
+      <Modal
+        animationType='fade'
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>タイトル</Text>
+              <TextInput
+                style={styles.inputTitle}
+                value={newTitle}
+                onChangeText={(title) => setNewTitle(title)}
+              />
+              <Text style={styles.modalText}>内容</Text>
+              <TextInput
+                style={styles.inputContent}
+                value={newContent}
+                onChangeText={(content) => setNewContent(content)}
+                multiline
+                textAlignVertical='top'
+              />
+              <View style={styles.buttonContainer}>
+                <Pressable
+                  onPress={() => setModalVisible(!modalVisible)}
+                  style={styles.button}
+                >
+                  <Text style={styles.textStyle}>キャンセル</Text>
+                </Pressable>
+                <Pressable
+                  onPress={() => changeMemo(id, newTitle, newContent)}
+                  style={[styles.button, styles.buttonSave]}
+                >
+                  <Text style={styles.textStyle}>変更</Text>
+                </Pressable>
+              </View>
             </View>
           </View>
-        </SafeAreaView>
-      </TouchableWithoutFeedback>
-    </Modal>
+        </TouchableWithoutFeedback>
+      </Modal>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   centeredView: {
     flex: 1,
-    marginTop: 70,
     alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    paddingTop: 100,
   },
   modalView: {
     width: '90%',
-    height: '50%',
+    height: 'auto',
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 20,

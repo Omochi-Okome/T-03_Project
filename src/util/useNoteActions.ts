@@ -17,14 +17,45 @@ import { showMessage } from 'react-native-flash-message';
 
 export const useNoteActions = (onChange: Function) => {
   const [loading, setLoading] = useState(false);
+  const db = getDatabase(app);
+  const memoRef = ref(db, 'memos');
+
+  // Memo上に同じタイトルがあるかどうかをチェックする関数
+  const checkTitle = async (title: string, currentId?: string) => {
+    const titleQuery = query(memoRef, orderByChild('title'), equalTo(title));
+    try {
+      const titleSnapshot = await get(titleQuery);
+      if (titleSnapshot.exists()) {
+        const data = titleSnapshot.val();
+        const keys = Object.keys(data);
+
+        if (currentId) {
+          if (keys.some((key) => key !== currentId)) {
+            console.log('存在する');
+            return true;
+          } else {
+            console.log('存在しない');
+            return false;
+          }
+        }
+        console.log('存在する');
+        return true;
+      } else {
+        console.log('存在しない');
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const readMemo = async () => {
     const db = getDatabase(app);
-    const dataRef = ref(db, '/notes');
-
+    const memoRef = ref(db, 'memos');
     try {
-      const snapshot = await get(dataRef);
+      const snapshot = await get(memoRef);
       const data = snapshot.val();
+      console.log(data);
       if (data) {
         const getDrawers = Object.keys(data).map((key) => ({
           id: key,
@@ -42,19 +73,14 @@ export const useNoteActions = (onChange: Function) => {
 
   const addMemo = async (title: string, content: string) => {
     setLoading(true);
-    const db = getDatabase(app);
-    const notesRef = ref(db, 'notes');
-    const newNoteRef = push(notesRef);
-    const titleQuery = query(notesRef, orderByChild('title'), equalTo(title));
-
+    const newMemoRef = push(memoRef);
     try {
-      const titleSnapshot = await get(titleQuery);
-      if (titleSnapshot.exists()) {
+      const exist = await checkTitle(title);
+      if (exist) {
         Alert.alert('エラー', '同じタイトルのメモがすでに存在します');
         return;
       }
-      await set(newNoteRef, { title, content });
-      onChange && onChange();
+      await set(newMemoRef, { title, content });
       showMessage({
         message: '保存に成功しました！',
         type: 'success',
@@ -64,13 +90,13 @@ export const useNoteActions = (onChange: Function) => {
       console.error(error);
       return false;
     } finally {
+      onChange && onChange();
       setLoading(false);
     }
   };
 
   const deleteMemo = (id: string) => {
-    const db = getDatabase(app);
-    const dataRef = ref(db, `/notes/${id}`);
+    const idRef = ref(db, `/memos/${id}`);
     return new Promise<boolean>((resolve) => {
       Alert.alert('削除', 'メモを削除しますか？', [
         {
@@ -85,11 +111,12 @@ export const useNoteActions = (onChange: Function) => {
           style: 'destructive',
           onPress: async () => {
             try {
-              await remove(dataRef);
+              await remove(idRef);
               showMessage({
                 message: '削除に成功しました',
                 type: 'success',
               });
+              onChange && onChange();
               resolve(true);
             } catch (error) {
               showMessage({
@@ -104,10 +131,15 @@ export const useNoteActions = (onChange: Function) => {
   };
 
   const updateMemo = async (id: string, newTitle: string, newContent: string) => {
-    const db = getDatabase(app);
-    const dataRef = ref(db, `/notes/${id}`);
+    const idRef = ref(db, `/memos/${id}`);
+
     try {
-      await update(dataRef, {
+      const exist = await checkTitle(newTitle, id);
+      if (exist) {
+        Alert.alert('エラー', '同じタイトルのメモがすでに存在します');
+        return;
+      }
+      await update(idRef, {
         title: newTitle,
         content: newContent,
       });
@@ -124,6 +156,5 @@ export const useNoteActions = (onChange: Function) => {
       });
     }
   };
-
   return { readMemo, addMemo, deleteMemo, updateMemo };
 };
