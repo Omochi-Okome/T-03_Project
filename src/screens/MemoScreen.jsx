@@ -6,27 +6,27 @@ import MaterialButton from '../components/UI/MaterialButton';
 import EditMemoModal from '../components/Modal/EditMemoModal';
 import { useNoteActions } from '../util/useNoteActions';
 
-export default function MemoScreen({ id, title, content, onChange }) {
+export default function MemoScreen({ id, title, content }) {
   const [memo, setMemo] = useState(content);
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
 
-  const { deleteMemo } = useNoteActions(onChange);
+  const { deleteMemo } = useNoteActions();
 
   function editMemo() {
     setModalVisible((visible) => !visible);
   }
 
-  async function deleteData(id) {
-    try {
-      const deletionResult = await deleteMemo(id);
-      if (deletionResult) {
-        navigation.goBack();
-      }
-    } catch (error) {
-      console.log('エラーが発生しました:', error);
+  function deleteData(id) {
+    const result = deleteMemo(id);
+    if (result) {
+      navigation.goBack();
     }
   }
+
+  useEffect(() => {
+    setMemo(content);
+  }, [content]);
 
   useEffect(() => {
     navigation.setOptions({

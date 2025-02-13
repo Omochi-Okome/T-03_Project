@@ -60,6 +60,7 @@ export const useNoteActions = (onChange: Function) => {
           id: key,
           ...data[key],
         }));
+        console.log('getDrawers:', getDrawers);
         callback(getDrawers);
       } else {
         callback([]);

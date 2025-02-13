@@ -17,14 +17,13 @@ export default function AddNoteScreen() {
 
   const { addMemo } = useNoteActions();
 
-  function addData(title, content) {
-    addMemo(title, content).then((success) => {
-      if (success) {
-        setTitle('');
-        setContent('');
-      }
-    });
-  }
+  const addData = (title, content) => {
+    const result = addMemo(title, content);
+    if (result) {
+      setTitle('');
+      setContent('');
+    }
+  };
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

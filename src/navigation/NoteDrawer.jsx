@@ -10,20 +10,13 @@ const Drawer = createDrawerNavigator();
 
 export default function NoteDrawer() {
   const [drawers, setDrawers] = useState([]);
-  const { readMemo, deleteMemo } = useNoteActions(readData);
+  const { readMemo } = useNoteActions();
 
   useEffect(() => {
-    const unsbscribe = readData((newDrawers) => {
-      setDrawers(newDrawers);
+    readMemo((callback) => {
+      setDrawers(callback);
     });
-    return () => unsbscribe();
   }, []);
-
-  function readData() {
-    readMemo((getDrawers) => {
-      setDrawers(getDrawers);
-    });
-  }
 
   return (
     <Drawer.Navigator
@@ -63,14 +56,11 @@ export default function NoteDrawer() {
         <Drawer.Screen
           key={drawer.id}
           name={drawer.title || `タイトルなし-${drawer.id}`}
-          children={(props) => (
+          children={() => (
             <MemoScreen
-              {...props}
               id={drawer.id}
               title={drawer.title}
               content={drawer.content}
-              remove={deleteMemo}
-              onChange={readData}
             />
           )}
           options={{
