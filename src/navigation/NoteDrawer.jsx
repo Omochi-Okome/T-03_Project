@@ -13,18 +13,17 @@ export default function NoteDrawer() {
   const { readMemo, deleteMemo } = useNoteActions(readData);
 
   useEffect(() => {
-    readData();
+    const unsbscribe = readData((newDrawers) => {
+      setDrawers(newDrawers);
+    });
+    return () => unsbscribe();
   }, []);
 
-  async function readData() {
-    const getDrawers = await readMemo();
-    setDrawers(getDrawers);
+  function readData() {
+    readMemo((getDrawers) => {
+      setDrawers(getDrawers);
+    });
   }
-
-  // const readData = useCallback(async () => {
-  //   const getDrawers = await readMemo();
-  //   setDrawers(getDrawers);
-  // }, [readMemo]);
 
   return (
     <Drawer.Navigator

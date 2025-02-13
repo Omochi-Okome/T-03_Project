@@ -3,6 +3,7 @@ import {
   equalTo,
   get,
   getDatabase,
+  onValue,
   orderByChild,
   push,
   query,
@@ -31,17 +32,13 @@ export const useNoteActions = (onChange: Function) => {
 
         if (currentId) {
           if (keys.some((key) => key !== currentId)) {
-            console.log('存在する');
             return true;
           } else {
-            console.log('存在しない');
             return false;
           }
         }
-        console.log('存在する');
         return true;
       } else {
-        console.log('存在しない');
         return false;
       }
     } catch (error) {
@@ -49,26 +46,27 @@ export const useNoteActions = (onChange: Function) => {
     }
   };
 
-  const readMemo = async () => {
+  const readMemo = (callback) => {
     const db = getDatabase(app);
     const memoRef = ref(db, 'memos');
-    try {
-      const snapshot = await get(memoRef);
+    // const snapshot = await get(memoRef);
+    // const data = snapshot.val();
+    const unsubscribe = onValue(memoRef, (snapshot) => {
       const data = snapshot.val();
-      console.log(data);
+      console.log('onValueによるリアルタイムデータ更新:', data);
+
       if (data) {
         const getDrawers = Object.keys(data).map((key) => ({
           id: key,
           ...data[key],
         }));
-        return getDrawers;
+        callback(getDrawers);
       } else {
-        return [];
+        callback([]);
       }
-    } catch (error) {
-      console.error('データ取得できませんでした', error);
-      return [];
-    }
+    });
+
+    return unsubscribe;
   };
 
   const addMemo = async (title: string, content: string) => {
