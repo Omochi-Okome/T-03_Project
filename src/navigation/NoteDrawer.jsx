@@ -8,7 +8,7 @@ import { useNoteActions } from '../util/useNoteActions';
 
 const Drawer = createDrawerNavigator();
 
-export default function NoteDrawer() {
+const NoteDrawer = () => {
   const [drawers, setDrawers] = useState([]);
   const { readMemo } = useNoteActions();
 
@@ -77,4 +77,6 @@ export default function NoteDrawer() {
       ))}
     </Drawer.Navigator>
   );
-}
+};
+
+export default NoteDrawer;

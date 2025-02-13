@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
-import MaterialButton from './UI/MaterialButton';
+import MaterialButton from '../components/UI/MaterialButton';
 
-export default function RecordingButton({ recording, setRecording }) {
-  function handlePress() {
+const RecordingButton = ({ recording, setRecording }) => {
+  const handlePress = () => {
     setRecording((recording) => !recording);
-  }
+  };
   return (
     <MaterialButton
       style={styles.button}
@@ -14,7 +14,7 @@ export default function RecordingButton({ recording, setRecording }) {
       iconColor={recording ? 'red' : 'white'}
     />
   );
-}
+};
 
 const styles = StyleSheet.create({
   button: {
@@ -23,3 +23,5 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
+
+export default RecordingButton;

@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import VoiceScreen from '../screens/VoiceScreen';
+import VoiceScreen from '../screens/HomeScreen';
 
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import SettingScreen from '../screens/SettingScreen';
@@ -7,7 +7,7 @@ import NoteDrawer from './NoteDrawer';
 
 const Tab = createBottomTabNavigator();
 
-export default function BottomTabs() {
+const BottomTabs = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen
@@ -52,4 +52,6 @@ export default function BottomTabs() {
       />
     </Tab.Navigator>
   );
-}
+};
+
+export default BottomTabs;

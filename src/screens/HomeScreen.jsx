@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 
-import RecordingButton from '../components/RecordingButton';
+import RecordingButton from '../navigation/RecordingButton';
 
-export default function HomeScreen() {
+const HomeScreen = () => {
   const [recording, setRecording] = useState(false);
 
   return (
@@ -29,7 +29,7 @@ export default function HomeScreen() {
       </KeyboardAvoidingView>
     </SafeAreaProvider>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -46,3 +46,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default HomeScreen;

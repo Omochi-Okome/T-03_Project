@@ -2,7 +2,7 @@ import { StyleSheet, View } from 'react-native';
 
 import ToggleSwitch from '../components/UI/ToggleSwitch';
 
-export default function SettingScreen() {
+const SettingScreen = () => {
   return (
     <View style={style.container}>
       <View style={style.settingContainer}>
@@ -21,7 +21,7 @@ export default function SettingScreen() {
       </View>
     </View>
   );
-}
+};
 
 const style = StyleSheet.create({
   container: {
@@ -32,3 +32,5 @@ const style = StyleSheet.create({
     margin: 10,
   },
 });
+
+export default SettingScreen;

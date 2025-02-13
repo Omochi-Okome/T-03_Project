@@ -6,23 +6,20 @@ import MaterialButton from '../components/UI/MaterialButton';
 import EditMemoModal from '../components/Modal/EditMemoModal';
 import { useNoteActions } from '../util/useNoteActions';
 
-export default function MemoScreen({ id, title, content }) {
+const MemoScreen = ({ id, title, content }) => {
   const [memo, setMemo] = useState(content);
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
 
   const { deleteMemo } = useNoteActions();
 
-  function editMemo() {
+  const editMemo = () => {
     setModalVisible((visible) => !visible);
-  }
+  };
 
-  function deleteData(id) {
-    const result = deleteMemo(id);
-    if (result) {
-      navigation.goBack();
-    }
-  }
+  const deleteData = async (id) => {
+    deleteMemo(id);
+  };
 
   useEffect(() => {
     setMemo(content);
@@ -77,7 +74,7 @@ export default function MemoScreen({ id, title, content }) {
       </SafeAreaView>
     </SafeAreaProvider>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -96,3 +93,5 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
 });
+
+export default MemoScreen;

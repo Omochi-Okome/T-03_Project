@@ -10,7 +10,7 @@ import {
 import inputTextReducer from '../store/TextInput';
 import MaterialButton from '../components/UI/MaterialButton';
 
-export default function NoteScreen({ navigation, content }) {
+const NoteScreen = ({ navigation, content }) => {
   const [state, dispatch] = useReducer(inputTextReducer, { text: content });
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function NoteScreen({ navigation, content }) {
     });
   }, [navigation, resetText]);
 
-  function resetText() {
+  const resetText = () => {
     Alert.alert('リセット', 'メモをリセットしますか？', [
       {
         text: 'キャンセル',
@@ -47,11 +47,11 @@ export default function NoteScreen({ navigation, content }) {
         },
       },
     ]);
-  }
+  };
 
-  function updateText(input) {
+  const updateText = (input) => {
     dispatch({ type: 'enter', text: input });
-  }
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -67,7 +67,7 @@ export default function NoteScreen({ navigation, content }) {
       </View>
     </TouchableWithoutFeedback>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -87,3 +87,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
 });
+
+export default NoteScreen;

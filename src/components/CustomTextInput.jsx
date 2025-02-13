@@ -1,6 +1,6 @@
 import { StyleSheet, TextInput } from 'react-native';
 
-export default function CustomTextInput({ value, onChangeText, placeholder, multiline = false }) {
+const CustomTextInput = ({ value, onChangeText, placeholder, multiline = false }) => {
   return (
     <TextInput
       style={[styles.input, multiline && styles.TextInput]}
@@ -11,7 +11,7 @@ export default function CustomTextInput({ value, onChangeText, placeholder, mult
       textAlignVertical={multiline ? 'top' : 'center'}
     />
   );
-}
+};
 
 const styles = StyleSheet.create({
   input: {
@@ -26,3 +26,5 @@ const styles = StyleSheet.create({
     height: 120,
   },
 });
+
+export default CustomTextInput;

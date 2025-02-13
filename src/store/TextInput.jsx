@@ -1,11 +1,11 @@
-function handleResetText(text) {
+const handleResetText = (text) => {
   dispatch({
     type: 'reset',
     text: '',
   });
-}
+};
 
-export default function inputTextReducer(text, action) {
+const inputTextReducer = (text, action) => {
   switch (action.type) {
     case 'reset': {
       return {
@@ -21,4 +21,6 @@ export default function inputTextReducer(text, action) {
       throw Error('Unknown action:' + action.type);
     }
   }
-}
+};
+
+export default inputTextReducer;

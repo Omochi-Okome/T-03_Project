@@ -3,14 +3,16 @@ import BottomTabs from './BottomTabs';
 
 const Stack = createNativeStackNavigator();
 
-export default function AppNavigator() {
+const AppNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="BottomTabs"
+        name='BottomTabs'
         component={BottomTabs}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );
-}
+};
+
+export default AppNavigator;

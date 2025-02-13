@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './src/navigation/AppNavigator';
 import FlashMessage from 'react-native-flash-message';
 
-export default function App() {
+const App = () => {
   return (
     <NavigationContainer>
       <FlashMessage position='top' />
@@ -11,4 +11,6 @@ export default function App() {
       <StatusBar style='auto' />
     </NavigationContainer>
   );
-}
+};
+
+export default App;

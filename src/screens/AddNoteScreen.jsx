@@ -11,7 +11,7 @@ import { useNoteActions } from '../util/useNoteActions';
 import CustomTextInput from '../components/CustomTextInput';
 import GradientButton from '../components/UI/GradientButton';
 
-export default function AddNoteScreen() {
+const AddNoteScreen = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
@@ -52,7 +52,7 @@ export default function AddNoteScreen() {
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
-}
+};
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -79,3 +79,5 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
 });
+
+export default AddNoteScreen;

@@ -15,7 +15,7 @@ import { useNoteActions } from '../../util/useNoteActions';
 
 // FIXME:更新後、再レンダリングがなされるよう修正する
 
-export default function EditMemoModal({ id, title, content, modalVisible, setModalVisible }) {
+const EditMemoModal = ({ id, title, content, modalVisible, setModalVisible }) => {
   const [newTitle, setNewTitle] = useState(title);
   const [newContent, setNewContent] = useState(content);
 
@@ -76,7 +76,7 @@ export default function EditMemoModal({ id, title, content, modalVisible, setMod
       </Modal>
     </KeyboardAvoidingView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -146,3 +146,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+
+export default EditMemoModal;
