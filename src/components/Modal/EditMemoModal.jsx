@@ -13,8 +13,6 @@ import {
 } from 'react-native';
 import { useNoteActions } from '../../util/useNoteActions';
 
-// FIXME:更新後、再レンダリングがなされるよう修正する
-
 const EditMemoModal = ({ id, title, content, modalVisible, setModalVisible }) => {
   const [newTitle, setNewTitle] = useState(title);
   const [newContent, setNewContent] = useState(content);

@@ -9,7 +9,7 @@ import {
 import MaterialButton from '../components/UI/MaterialButton';
 import { useNoteActions } from '../util/useNoteActions';
 
-// FIXME:Focus状態で、キーボードをオフにできる「完了」ボタンを表示できるよう修正する
+// TODO:Focus状態で、キーボードをオフにできる「完了」ボタンを表示できるよう修正する
 
 const NoteScreen = ({ navigation }) => {
   const [input, setInput] = useState('');

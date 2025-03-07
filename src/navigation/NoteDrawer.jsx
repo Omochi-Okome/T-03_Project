@@ -2,9 +2,12 @@ import { useEffect, useState } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import AddNoteScreen from '../screens/AddNoteScreen';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import ManagementScreen from '../screens/ManagementScreen';
 import MemoScreen from '../screens/MemoScreen';
 import NoteScreen from '../screens/NoteScreen';
 import { useNoteActions } from '../util/useNoteActions';
+
+// TODO:Memoを一括で管理できる画面を作成する
 
 const Drawer = createDrawerNavigator();
 
@@ -45,7 +48,20 @@ const NoteDrawer = () => {
         options={{
           drawerIcon: ({ focused }) => (
             <MaterialIcons
-              name='note-add'
+              name='add-circle'
+              size={24}
+              color={focused ? 'white' : 'black'}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name='Management'
+        component={ManagementScreen}
+        options={{
+          drawerIcon: ({ focused }) => (
+            <MaterialIcons
+              name='format-list-bulleted'
               size={24}
               color={focused ? 'white' : 'black'}
             />

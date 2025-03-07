@@ -11,6 +11,8 @@ import { useNoteActions } from '../util/useNoteActions';
 import CustomTextInput from '../components/CustomTextInput';
 import GradientButton from '../components/UI/GradientButton';
 
+// FIXME:Drawerと同じタイトルを登録できないよう修正する
+
 const AddNoteScreen = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
