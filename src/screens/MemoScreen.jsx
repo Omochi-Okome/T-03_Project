@@ -13,7 +13,7 @@ const MemoScreen = ({ id, title, content }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
 
-  const { deleteMemo } = useNoteActions();
+  const { deleteMemo, resetMemo } = useNoteActions();
 
   const editMemo = () => {
     setModalVisible((visible) => !visible);
@@ -31,7 +31,7 @@ const MemoScreen = ({ id, title, content }) => {
     navigation.setOptions({
       headerTitle: '',
       headerRight: () => (
-        <>
+        <View style={styles.topButtonContainer}>
           <MaterialButton
             iconName='delete'
             iconSize={32}
@@ -44,7 +44,13 @@ const MemoScreen = ({ id, title, content }) => {
             iconColor='black'
             onPress={() => editMemo()}
           />
-        </>
+          <MaterialButton
+            iconName='autorenew'
+            iconSize={32}
+            iconColor='black'
+            onPress={() => resetMemo(setMemo)}
+          />
+        </View>
       ),
     });
   }, [navigation]);
@@ -79,6 +85,10 @@ const MemoScreen = ({ id, title, content }) => {
 };
 
 const styles = StyleSheet.create({
+  topButtonContainer: {
+    flexDirection: 'row',
+    gap: 10,
+  },
   container: {
     flex: 1,
     backgroundColor: 'white',

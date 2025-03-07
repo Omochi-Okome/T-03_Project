@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import {
-  Alert,
   Keyboard,
   View,
   StyleSheet,
@@ -8,41 +7,28 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import MaterialButton from '../components/UI/MaterialButton';
+import { useNoteActions } from '../util/useNoteActions';
 
 // FIXME:Focus状態で、キーボードをオフにできる「完了」ボタンを表示できるよう修正する
 
 const NoteScreen = ({ navigation }) => {
   const [input, setInput] = useState('');
 
+  const { resetMemo } = useNoteActions();
+
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <MaterialButton
           style={styles.resetButton}
-          onPress={resetText}
-          iconName='delete'
+          onPress={() => resetMemo(setInput)}
+          iconName='autorenew'
           iconSize={32}
           iconColor='black'
         />
       ),
     });
-  }, [navigation, resetText]);
-
-  const resetText = () => {
-    Alert.alert('リセット', 'メモをリセットしますか？', [
-      {
-        text: 'キャンセル',
-        style: 'cancel',
-      },
-      {
-        text: 'リセット',
-        style: 'destructive',
-        onPress: () => {
-          setInput('');
-        },
-      },
-    ]);
-  };
+  }, [navigation]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -51,7 +37,6 @@ const NoteScreen = ({ navigation }) => {
           style={styles.textinput}
           onChangeText={(text) => setInput(text)}
           value={input}
-          // ref={input}
           multiline
           placeholder='入力...'
           returnKeyLabel='改行'

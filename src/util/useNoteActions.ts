@@ -153,5 +153,20 @@ export const useNoteActions = (onChange: Function) => {
       });
     }
   };
-  return { readMemo, addMemo, deleteMemo, updateMemo };
+  const resetMemo = async (setInput: any) => {
+    Alert.alert('リセット', 'メモをリセットしますか？', [
+      {
+        text: 'キャンセル',
+        style: 'cancel',
+      },
+      {
+        text: 'リセット',
+        style: 'destructive',
+        onPress: () => {
+          setInput('');
+        },
+      },
+    ]);
+  };
+  return { readMemo, addMemo, deleteMemo, updateMemo, resetMemo };
 };
