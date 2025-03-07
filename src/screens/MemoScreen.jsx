@@ -6,6 +6,8 @@ import MaterialButton from '../components/UI/MaterialButton';
 import EditMemoModal from '../components/Modal/EditMemoModal';
 import { useNoteActions } from '../util/useNoteActions';
 
+// FIXME: MemoScreenにもリセットボタンを付与する。
+
 const MemoScreen = ({ id, title, content }) => {
   const [memo, setMemo] = useState(content);
   const [modalVisible, setModalVisible] = useState(false);

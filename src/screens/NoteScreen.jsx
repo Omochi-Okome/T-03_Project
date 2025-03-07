@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Alert,
   Keyboard,
@@ -7,17 +7,12 @@ import {
   TextInput,
   TouchableWithoutFeedback,
 } from 'react-native';
-import inputTextReducer from '../store/TextInput';
 import MaterialButton from '../components/UI/MaterialButton';
 
-const NoteScreen = ({ navigation, content }) => {
-  const [state, dispatch] = useReducer(inputTextReducer, { text: content });
+// FIXME:Focus状態で、キーボードをオフにできる「完了」ボタンを表示できるよう修正する
 
-  useEffect(() => {
-    if (content) {
-      dispatch({ type: 'enter', text: content });
-    }
-  }, [content]);
+const NoteScreen = ({ navigation }) => {
+  const [input, setInput] = useState('');
 
   useEffect(() => {
     navigation.setOptions({
@@ -43,14 +38,10 @@ const NoteScreen = ({ navigation, content }) => {
         text: 'リセット',
         style: 'destructive',
         onPress: () => {
-          dispatch({ type: 'reset', text: '' });
+          setInput('');
         },
       },
     ]);
-  };
-
-  const updateText = (input) => {
-    dispatch({ type: 'enter', text: input });
   };
 
   return (
@@ -58,8 +49,9 @@ const NoteScreen = ({ navigation, content }) => {
       <View style={styles.container}>
         <TextInput
           style={styles.textinput}
-          onChangeText={(text) => updateText(text)}
-          value={state.text}
+          onChangeText={(text) => setInput(text)}
+          value={input}
+          // ref={input}
           multiline
           placeholder='入力...'
           returnKeyLabel='改行'

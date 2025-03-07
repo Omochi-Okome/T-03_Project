@@ -49,8 +49,6 @@ export const useNoteActions = (onChange: Function) => {
   const readMemo = (callback) => {
     const db = getDatabase(app);
     const memoRef = ref(db, 'memos');
-    // const snapshot = await get(memoRef);
-    // const data = snapshot.val();
     const unsubscribe = onValue(memoRef, (snapshot) => {
       const data = snapshot.val();
       console.log('onValueによるリアルタイムデータ更新:', data);

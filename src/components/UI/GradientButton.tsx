@@ -1,8 +1,13 @@
 import { useState } from 'react';
-import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { GestureResponderEvent, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-const GradientButton = ({ title, onPress }) => {
+type GradientButtonProps = {
+  title: string;
+  onPress: (event: GestureResponderEvent) => void;
+};
+
+const GradientButton = ({ title, onPress }: GradientButtonProps) => {
   const [pressed, setPressed] = useState(false);
 
   return (
