@@ -16,9 +16,10 @@ const NoteDrawer = () => {
   const { readMemo } = useNoteActions();
 
   useEffect(() => {
-    readMemo((callback) => {
-      setDrawers(callback);
+    readMemo((memos) => {
+      setDrawers(memos);
     });
+    return () => unsubscribe();
   }, []);
 
   return (

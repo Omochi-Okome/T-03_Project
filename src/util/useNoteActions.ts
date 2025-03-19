@@ -15,9 +15,12 @@ import {
 import app from '../../firebase';
 import { Alert } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
+import { Unsubscribe } from 'firebase/database'; // 追加：Unsubscribe型のインポート
 
-export const useNoteActions = (onChange: Function) => {
-  const [loading, setLoading] = useState(false);
+// Types
+import { Memo, MemoList } from '../types/memo';
+
+export const useNoteActions = (onChange?: Function) => {
   const db = getDatabase(app);
   const memoRef = ref(db, 'memos');
 
@@ -46,36 +49,37 @@ export const useNoteActions = (onChange: Function) => {
     }
   };
 
-  const readMemo = (callback) => {
+  const readMemo = (callback: (memos: MemoList) => void): Unsubscribe => {
     const db = getDatabase(app);
     const memoRef = ref(db, 'memos');
-    const unsubscribe = onValue(memoRef, (snapshot) => {
+    const unsubscribe: Unsubscribe = onValue(memoRef, (snapshot) => {
       const data = snapshot.val();
-      console.log('onValueによるリアルタイムデータ更新:', data);
+      console.log('リアルタイムデータ更新');
 
       if (data) {
         const getDrawers = Object.keys(data).map((key) => ({
           id: key,
           ...data[key],
         }));
-        console.log('getDrawers:', getDrawers);
+        console.log('データを取得中...');
         callback(getDrawers);
       } else {
         callback([]);
       }
+
+      return unsubscribe;
     });
 
     return unsubscribe;
   };
 
-  const addMemo = async (title: string, content: string) => {
-    setLoading(true);
+  const addMemo = async (title: string, content: string):Promise<boolean> => {
     const newMemoRef = push(memoRef);
     try {
       const exist = await checkTitle(title);
       if (exist) {
         Alert.alert('エラー', '同じタイトルのメモがすでに存在します');
-        return;
+        return false;
       }
       await set(newMemoRef, { title, content });
       showMessage({
@@ -88,7 +92,6 @@ export const useNoteActions = (onChange: Function) => {
       return false;
     } finally {
       onChange && onChange();
-      setLoading(false);
     }
   };
 

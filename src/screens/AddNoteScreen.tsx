@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
   Keyboard,
   SafeAreaView,
@@ -14,14 +14,14 @@ import GradientButton from '../components/UI/GradientButton';
 // FIXME:Drawerと同じタイトルを登録できないよう修正する
 
 const AddNoteScreen = () => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [title, setTitle] = useState<string>('');
+  const [content, setContent] = useState<string>('');
 
   const { addMemo } = useNoteActions();
 
-  const addData = (title, content) => {
+  const addData = async (title: string, content: string) => {
     const result = addMemo(title, content);
-    if (result) {
+    if (await result) {
       setTitle('');
       setContent('');
     }
@@ -34,13 +34,13 @@ const AddNoteScreen = () => {
           <Text style={styles.label}>タイトル</Text>
           <CustomTextInput
             value={title}
-            onChangeText={(title) => setTitle(title)}
+            onChangeText={(title: string) => setTitle(title)}
             placeholder='タイトルを入力...'
           />
           <Text style={styles.label}>内容</Text>
           <CustomTextInput
             value={content}
-            onChangeText={(content) => setContent(content)}
+            onChangeText={(content: string) => setContent(content)}
             placeholder='内容を入力...'
             multiline
           />
