@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { StyleSheet, View, ScrollView, Text } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import MaterialButton from '../components/UI/MaterialButton';
 import { useNoteActions } from '../util/useNoteActions';
+import { Colors } from '../util/styles';
 
 // 要件定義
 // 左からMemoタイトル、削除ボタン、編集ボタンを配置する(component化する)
@@ -22,54 +22,34 @@ const ManagementScreen = () => {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.mainTitle}>Management</Text>
-      <View style={styles.outlineContainer}>
-        <LinearGradient
-          colors={['#4158D0', '#C850C0', '#FFCC70']}
-          start={{ x: 0.2, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.card}
-        >
-          <Text style={{ fontSize: 22 }}>Memo数</Text>
-          <Text style={{ fontSize: 22 }}>{Object.keys(memos).length}</Text>
-        </LinearGradient>
-        {/* 以下,カードの使い道が見つからないので保留 */}
-        {/* <LinearGradient
-          colors={['#4158D0', '#C850C0', '#FFCC70']}
-          start={{ x: 0.2, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.card}
-        >
-          <Text style={{ fontSize: 22 }}>Memo数</Text>
-          <Text style={{ fontSize: 22 }}>{Object.keys(memos).length}</Text>
-        </LinearGradient> */}
+      <View style={styles.memoCountCard}>
+        <Text style={styles.infoTitle}>Memo数</Text>
+        <Text style={styles.infoCount}>{Object.keys(memos).length}</Text>
       </View>
+
       <View style={styles.listContainer}>
         {memos.map((memo) => (
-          <LinearGradient
-            colors={['#8BC6EC', '#9599E2']}
-            start={{ x: 0.2, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={styles.memoContainer}
+          <View
+            key={memo.id}
+            style={styles.memoCard}
           >
-            background-color: #8BC6EC; background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2
-            100%);
-            <Text style={{ fontSize: 24, fontWeight: 'bold' }}>{memo.title}</Text>
-            <Text style={{ fontSize: 10 }}>{memo.content}</Text>
+            <Text style={styles.memoTitle}>{memo.title}</Text>
+            <Text style={styles.memoContent}>{memo.content}</Text>
             <View style={styles.buttonContainer}>
               <MaterialButton
                 iconName='delete'
                 iconSize={32}
-                iconColor='black'
+                iconColor={Colors.systemBlue}
                 onPress={() => deleteMemo(memo.id)}
               />
               <MaterialButton
                 iconName='edit'
-                iconSize={32}
-                iconColor='black'
+                iconSize={28}
+                iconColor={Colors.systemBlue}
                 onPress={() => console.log('編集機能は開発中です。')}
               />
             </View>
-          </LinearGradient>
+          </View>
         ))}
       </View>
     </ScrollView>
@@ -79,47 +59,69 @@ const ManagementScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-  },
-  outlineContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginHorizontal: 10,
+    backgroundColor: '#F8F8F8',
   },
   mainTitle: {
-    padding: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 16,
     fontSize: 26,
-    fontWeight: 'bold',
+    fontWeight: '600',
+    color: '#000',
   },
-  card: {
-    justifyContent: 'space-between',
-    paddingVertical: 10,
+  memoCountCard: {
+    backgroundColor: '#FFF',
+    borderRadius: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 30,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 2 },
+    alignSelf: 'center',
+    width: '80%',
+    marginBottom: 20,
+  },
+  infoTitle: {
+    fontSize: 16,
+    color: '#000',
+    marginBottom: 6,
+  },
+  infoContainer: {
     alignItems: 'center',
-    backgroundColor: 'blue',
-    borderRadius: 30,
-    width: '40%',
-    height: 90,
+    marginBottom: 20,
+  },
+  infoCount: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: Colors.systemBlue,
   },
   listContainer: {
-    alignItems: 'center',
-    margin: 10,
+    paddingHorizontal: 16,
   },
-  memoContainer: {
-    justifyContent: 'space-between',
-    marginVertical: 3,
-    paddingVertical: 5,
-    paddingHorizontal: 20,
-    width: '100%',
-    height: 200,
-    borderRadius: 20,
-    backgroundColor: '#8BC6EC',
+  memoCard: {
+    backgroundColor: '#FFF',
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 12,
+    shadowColor: '#000',
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 2 },
+  },
+  memoTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#000',
+    marginBottom: 6,
+  },
+  memoContent: {
+    fontSize: 14,
+    color: '#444',
+    marginBottom: 12,
   },
   buttonContainer: {
     flexDirection: 'row',
-  },
-  memoTitle: {
-    fontSize: 30,
-    fontWeight: 'bold',
+    justifyContent: 'flex-end',
   },
 });
 
