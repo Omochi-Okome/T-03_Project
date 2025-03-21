@@ -49,6 +49,17 @@ export const useNoteActions = (onChange?: Function) => {
     }
   };
 
+  // 禁止されているタイトルが使われていないかをチェックする関数
+  const checkProhibitedTitle = async (title: string) => {
+    const prohibitedWord = ['Home', 'AddScreen', 'Management'];
+
+    if (prohibitedWord.includes(title)) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
   const readMemo = (callback: (memos: MemoList) => void): Unsubscribe => {
     const db = getDatabase(app);
     const memoRef = ref(db, 'memos');
@@ -73,9 +84,16 @@ export const useNoteActions = (onChange?: Function) => {
     return unsubscribe;
   };
 
-  const addMemo = async (title: string, content: string):Promise<boolean> => {
-    const newMemoRef = push(memoRef);
+  const addMemo = async (title: string, content: string): Promise<boolean> => {
+    const allowed = await checkProhibitedTitle(title);
+
+    if (!allowed) {
+      Alert.alert('エラー', 'このタイトルは使用できません');
+      return false;
+    }
+
     try {
+      const newMemoRef = push(memoRef);
       const exist = await checkTitle(title);
       if (exist) {
         Alert.alert('エラー', '同じタイトルのメモがすでに存在します');
@@ -131,9 +149,15 @@ export const useNoteActions = (onChange?: Function) => {
   };
 
   const updateMemo = async (id: string, newTitle: string, newContent: string) => {
-    const idRef = ref(db, `/memos/${id}`);
+    const allowed = await checkProhibitedTitle(newTitle);
+
+    if (!allowed) {
+      Alert.alert('エラー', 'このタイトルは使用できません');
+      return false;
+    }
 
     try {
+      const idRef = ref(db, `/memos/${id}`);
       const exist = await checkTitle(newTitle, id);
       if (exist) {
         Alert.alert('エラー', '同じタイトルのメモがすでに存在します');

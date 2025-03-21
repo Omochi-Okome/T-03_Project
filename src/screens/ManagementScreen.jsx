@@ -9,6 +9,8 @@ import { Colors } from '../util/styles';
 // 削除ボタンを押下したら、useNoteActionのdeleteMemoを使って削除する
 // 編集ボタンを押下したら、画面遷移する👉MemoScreenの編集画面と統合する
 
+// TODO:編集画面を追加する
+
 const ManagementScreen = () => {
   const [memos, setMemos] = useState([]);
   const { readMemo, deleteMemo } = useNoteActions();
