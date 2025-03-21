@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { useNoteActions } from '../util/useNoteActions';
 import CustomTextInput from '../components/CustomTextInput';
-import GradientButton from '../components/UI/GradientButton';
+import CustomButton from '../components/UI/CustomButton';
 
 import { Colors } from '../util/styles';
 
@@ -36,19 +36,19 @@ const AddNoteScreen = () => {
           <Text style={styles.label}>タイトル</Text>
           <CustomTextInput
             value={title}
-            onChangeText={(title: string) => setTitle(title)}
+            onChangeText={setTitle}
             placeholder='タイトルを入力...'
           />
           <Text style={styles.label}>内容</Text>
           <CustomTextInput
             value={content}
-            onChangeText={(content: string) => setContent(content)}
+            onChangeText={setContent}
             placeholder='内容を入力...'
             multiline
           />
         </View>
         <View style={styles.buttonContainer}>
-          <GradientButton
+          <CustomButton
             title='追加'
             onPress={() => addData(title, content)}
           />
@@ -61,26 +61,25 @@ const AddNoteScreen = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: Colors.white100,
+    backgroundColor: Colors.systemBackground,
+    padding: 16,
   },
   container: {
     alignItems: 'center',
-    justifyContent: 'center',
-  },
-  formContainer: {
-    alignSelf: 'flex-start',
+    justifyContent: 'flex-start',
+    marginTop: 20,
   },
   label: {
-    alignSelf: 'flex-start',
-    fontSize: 20,
+    fontSize: 16,
+    fontWeight: '500',
     color: Colors.label,
-    margin: 20,
+    textAlign: 'center',
+    marginVertical: 8,
+    marginHorizontal: 8,
   },
   buttonContainer: {
-    marginTop: 20,
-    borderRadius: 10,
-    overflow: 'hidden',
-    alignSelf: 'center',
+    padding: 16,
+    alignItems: 'center',
   },
 });
 
