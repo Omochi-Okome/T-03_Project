@@ -1,5 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 import ToggleSwitch from '../components/UI/ToggleSwitch';
+import { Colors } from '../util/styles';
 
 const SettingScreen = () => {
   return (
@@ -24,7 +25,7 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    backgroundColor: 'white',
+    backgroundColor: Colors.white100,
   },
 });
 

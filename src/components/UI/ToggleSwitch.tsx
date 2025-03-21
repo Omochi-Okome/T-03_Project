@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Switch, Text, View } from 'react-native';
+import { Colors } from '../../util/styles';
 
 type ToggleSwitchProps = {
   text: string;
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
   },
   explain: {
     fontSize: 14,
-    color: '#5d646e',
+    color: Colors.black900,
   },
 });
 

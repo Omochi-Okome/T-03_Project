@@ -11,6 +11,8 @@ import { useNoteActions } from '../util/useNoteActions';
 import CustomTextInput from '../components/CustomTextInput';
 import GradientButton from '../components/UI/GradientButton';
 
+import { Colors } from '../util/styles';
+
 // FIXME:Drawerと同じタイトルを登録できないよう修正する
 
 const AddNoteScreen = () => {
@@ -59,7 +61,7 @@ const AddNoteScreen = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: Colors.white100,
   },
   container: {
     alignItems: 'center',
@@ -71,7 +73,7 @@ const styles = StyleSheet.create({
   label: {
     alignSelf: 'flex-start',
     fontSize: 20,
-    color: 'black',
+    color: Colors.label,
     margin: 20,
   },
   buttonContainer: {

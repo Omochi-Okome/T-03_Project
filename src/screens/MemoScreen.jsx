@@ -6,6 +6,8 @@ import MaterialButton from '../components/UI/MaterialButton';
 import EditMemoModal from '../components/Modal/EditMemoModal';
 import { useNoteActions } from '../util/useNoteActions';
 
+import { Colors } from '../util/styles';
+
 const MemoScreen = ({ id, title, content }) => {
   const [memo, setMemo] = useState(content);
   const [modalVisible, setModalVisible] = useState(false);
@@ -89,7 +91,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: Colors.white100,
   },
   textInputContainer: {
     margin: 10,

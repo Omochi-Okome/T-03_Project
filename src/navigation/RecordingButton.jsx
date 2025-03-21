@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import MaterialButton from '../components/UI/MaterialButton';
+import { Colors } from '../util/styles';
 
 const RecordingButton = ({ recording, setRecording }) => {
   const handlePress = () => {
@@ -18,7 +19,7 @@ const RecordingButton = ({ recording, setRecording }) => {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: 'black',
+    backgroundColor: Colors.black900,
     borderRadius: 100,
     padding: 10,
   },

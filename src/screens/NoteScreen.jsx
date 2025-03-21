@@ -1,13 +1,8 @@
 import { useEffect, useState } from 'react';
-import {
-  Keyboard,
-  View,
-  StyleSheet,
-  TextInput,
-  TouchableWithoutFeedback,
-} from 'react-native';
+import { Keyboard, View, StyleSheet, TextInput, TouchableWithoutFeedback } from 'react-native';
 import MaterialButton from '../components/UI/MaterialButton';
 import { useNoteActions } from '../util/useNoteActions';
+import { Colors } from '../util/styles';
 
 // TODO:Focus状態で、キーボードをオフにできる「完了」ボタンを表示できるよう修正する
 
@@ -49,7 +44,7 @@ const NoteScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: Colors.white100,
   },
   textInputContainer: {
     flex: 0.8,

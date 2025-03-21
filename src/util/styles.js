@@ -53,7 +53,7 @@ export const Colors = {
   // Appleシステムカラー風（iOS 13以降のダイナミックカラーの固定値版）
   // -----------------------------------------
   // 背景色
-  systemBackground: "#FFFFFF",         // メインのビュー背景（Light Mode）
+  systemBackground: "#F8F8F8",         // メインのビュー背景（Light Mode）
   secondarySystemBackground: "#F2F2F7",  // グループ化されたビューの背景に使用
   tertiarySystemBackground: "#EFEFF4",   // 小規模なグループや補助領域の背景に使用
   systemGroupedBackground: "#F7F7F7",    // グループ化されたコンテンツの背景

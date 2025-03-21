@@ -59,21 +59,21 @@ const ManagementScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8F8F8',
+    backgroundColor: Colors.systemBackground,
   },
   mainTitle: {
     paddingVertical: 20,
     paddingHorizontal: 16,
     fontSize: 26,
     fontWeight: '600',
-    color: '#000',
+    color: Colors.label,
   },
   memoCountCard: {
-    backgroundColor: '#FFF',
+    backgroundColor: Colors.white100,
     borderRadius: 20,
     paddingVertical: 20,
     paddingHorizontal: 30,
-    shadowColor: '#000',
+    shadowColor: Colors.black900,
     shadowOpacity: 0.1,
     shadowRadius: 6,
     shadowOffset: { width: 0, height: 2 },
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   },
   infoTitle: {
     fontSize: 16,
-    color: '#000',
+    color: Colors.label,
     marginBottom: 6,
   },
   infoContainer: {
@@ -99,11 +99,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   memoCard: {
-    backgroundColor: '#FFF',
+    backgroundColor: Colors.white100,
     borderRadius: 16,
     padding: 16,
     marginBottom: 12,
-    shadowColor: '#000',
+    shadowColor: Colors.label,
     shadowOpacity: 0.08,
     shadowRadius: 6,
     shadowOffset: { width: 0, height: 2 },
@@ -111,12 +111,12 @@ const styles = StyleSheet.create({
   memoTitle: {
     fontSize: 20,
     fontWeight: '600',
-    color: '#000',
+    color: Colors.label,
     marginBottom: 6,
   },
   memoContent: {
     fontSize: 14,
-    color: '#444',
+    color: Colors.secondaryLabel,
     marginBottom: 12,
   },
   buttonContainer: {

@@ -7,6 +7,7 @@ import MemoScreen from '../screens/MemoScreen';
 import NoteScreen from '../screens/NoteScreen';
 import { useNoteActions } from '../util/useNoteActions';
 
+import { Colors } from '../util/styles';
 // TODO:Memoを一括で管理できる画面を作成する
 
 const Drawer = createDrawerNavigator();
@@ -25,9 +26,9 @@ const NoteDrawer = () => {
   return (
     <Drawer.Navigator
       screenOptions={{
-        drawerActiveTintColor: 'white',
-        drawerInactiveTintColor: 'black',
-        drawerActiveBackgroundColor: '#003CB3',
+        drawerActiveTintColor: Colors.white100,
+        drawerInactiveTintColor: Colors.black900,
+        drawerActiveBackgroundColor: Colors.blue500,
       }}
     >
       <Drawer.Screen
@@ -38,7 +39,7 @@ const NoteDrawer = () => {
             <MaterialIcons
               name='edit-note'
               size={24}
-              color={focused ? 'white' : 'black'}
+              color={focused ? Colors.white100 : Colors.black900}
             />
           ),
         }}
@@ -51,7 +52,7 @@ const NoteDrawer = () => {
             <MaterialIcons
               name='add-circle'
               size={24}
-              color={focused ? 'white' : 'black'}
+              color={focused ? Colors.white100 : Colors.black900}
             />
           ),
         }}
@@ -64,7 +65,7 @@ const NoteDrawer = () => {
             <MaterialIcons
               name='format-list-bulleted'
               size={24}
-              color={focused ? 'white' : 'black'}
+              color={focused ? Colors.white100 : Colors.black900}
             />
           ),
         }}
@@ -86,7 +87,7 @@ const NoteDrawer = () => {
               <MaterialIcons
                 name='description'
                 size={24}
-                color={focused ? 'white' : 'black'}
+                color={focused ? Colors.white100 : Colors.black900}
               />
             ),
           }}

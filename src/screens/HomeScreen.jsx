@@ -4,6 +4,8 @@ import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 
 import RecordingButton from '../navigation/RecordingButton';
 
+import { Colors } from '../util/styles';
+
 const HomeScreen = () => {
   const [recording, setRecording] = useState(false);
 
@@ -34,7 +36,7 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: Colors.systemBackground,
   },
   recognitionContainer: {
     flex: 0.9,
