@@ -14,9 +14,9 @@ const MemoScreen = ({ id, title, content }) => {
   const navigation = useNavigation();
 
   const { deleteMemo, resetMemo } = useNoteActions();
-
+  
   const editMemo = () => {
-    setModalVisible((visible) => !visible);
+    navigation.navigate('EditMemo', { id, title, content });
   };
 
   const deleteData = async (id) => {

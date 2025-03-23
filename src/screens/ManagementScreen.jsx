@@ -4,6 +4,8 @@ import MaterialButton from '../components/UI/MaterialButton';
 import { useNoteActions } from '../util/useNoteActions';
 import { Colors } from '../util/styles';
 
+import { useNavigation } from '@react-navigation/native';
+
 // 要件定義
 // 左からMemoタイトル、削除ボタン、編集ボタンを配置する(component化する)
 // 削除ボタンを押下したら、useNoteActionのdeleteMemoを使って削除する
@@ -14,6 +16,7 @@ import { Colors } from '../util/styles';
 const ManagementScreen = () => {
   const [memos, setMemos] = useState([]);
   const { readMemo, deleteMemo } = useNoteActions();
+  const navigation = useNavigation();
 
   useEffect(() => {
     readMemo((callback) => {
@@ -48,7 +51,13 @@ const ManagementScreen = () => {
                 iconName='edit'
                 iconSize={28}
                 iconColor={Colors.systemBlue}
-                onPress={() => console.log('編集機能は開発中です。')}
+                onPress={() =>
+                  navigation.navigate('EditMemo', {
+                    id: memo.id,
+                    title: memo.title,
+                    content: memo.content,
+                  })
+                }
               />
             </View>
           </View>

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   equalTo,
   get,
@@ -15,10 +14,10 @@ import {
 import app from '../../firebase';
 import { Alert } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
-import { Unsubscribe } from 'firebase/database'; // 追加：Unsubscribe型のインポート
+import { Unsubscribe } from 'firebase/database';
 
 // Types
-import { Memo, MemoList } from '../types/memo';
+import { MemoList } from '../types/memo';
 
 export const useNoteActions = (onChange?: Function) => {
   const db = getDatabase(app);
@@ -65,7 +64,6 @@ export const useNoteActions = (onChange?: Function) => {
     const memoRef = ref(db, 'memos');
     const unsubscribe: Unsubscribe = onValue(memoRef, (snapshot) => {
       const data = snapshot.val();
-      console.log('リアルタイムデータ更新');
 
       if (data) {
         const getDrawers = Object.keys(data).map((key) => ({
@@ -151,12 +149,14 @@ export const useNoteActions = (onChange?: Function) => {
   const updateMemo = async (id: string, newTitle: string, newContent: string) => {
     const allowed = await checkProhibitedTitle(newTitle);
 
+    // 禁止用語リストに該当したら処理中止
     if (!allowed) {
       Alert.alert('エラー', 'このタイトルは使用できません');
       return false;
     }
 
     try {
+      console.log('updateMemoを実行~in useNoteActions.ts');
       const idRef = ref(db, `/memos/${id}`);
       const exist = await checkTitle(newTitle, id);
       if (exist) {
@@ -167,7 +167,7 @@ export const useNoteActions = (onChange?: Function) => {
         title: newTitle,
         content: newContent,
       });
-      onChange && onChange();
+      // onChange && onChange();
       showMessage({
         message: '更新に成功しました！',
         type: 'success',

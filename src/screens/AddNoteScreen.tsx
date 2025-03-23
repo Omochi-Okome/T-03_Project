@@ -13,8 +13,6 @@ import CustomButton from '../components/UI/CustomButton';
 
 import { Colors } from '../util/styles';
 
-// FIXME:Drawerと同じタイトルを登録できないよう修正する
-
 const AddNoteScreen = () => {
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');

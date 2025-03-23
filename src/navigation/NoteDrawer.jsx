@@ -6,9 +6,7 @@ import ManagementScreen from '../screens/ManagementScreen';
 import MemoScreen from '../screens/MemoScreen';
 import NoteScreen from '../screens/NoteScreen';
 import { useNoteActions } from '../util/useNoteActions';
-
 import { Colors } from '../util/styles';
-// TODO:Memoを一括で管理できる画面を作成する
 
 const Drawer = createDrawerNavigator();
 
@@ -17,7 +15,7 @@ const NoteDrawer = () => {
   const { readMemo } = useNoteActions();
 
   useEffect(() => {
-    readMemo((memos) => {
+    const unsubscribe = readMemo((memos) => {
       setDrawers(memos);
     });
     return () => unsubscribe();
@@ -25,6 +23,7 @@ const NoteDrawer = () => {
 
   return (
     <Drawer.Navigator
+      backBehavior='history'
       screenOptions={{
         drawerActiveTintColor: Colors.white100,
         drawerInactiveTintColor: Colors.black900,
