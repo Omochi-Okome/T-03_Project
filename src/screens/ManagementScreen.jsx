@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
     color: Colors.label,
   },
   memoCountCard: {
+    justifyContent: 'center',
     backgroundColor: Colors.white100,
     borderRadius: 20,
     paddingVertical: 20,
@@ -89,22 +90,23 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     shadowOffset: { width: 0, height: 2 },
     alignSelf: 'center',
-    width: '80%',
+    width: '30%',
+    aspectRatio: 1,
     marginBottom: 20,
   },
   infoTitle: {
-    fontSize: 16,
+    fontSize: 14,
     color: Colors.label,
     marginBottom: 6,
   },
   infoContainer: {
-    alignItems: 'center',
     marginBottom: 20,
   },
   infoCount: {
-    fontSize: 24,
+    fontSize: 30,
     fontWeight: '700',
     color: Colors.systemBlue,
+    textAlign: 'center',
   },
   listContainer: {
     paddingHorizontal: 16,
