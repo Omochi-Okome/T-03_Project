@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 
-import RecordingButton from '../navigation/RecordingButton';
+import RecordingButton from '../components/RecordingButton';
 
 import { Colors } from '../util/styles';
 

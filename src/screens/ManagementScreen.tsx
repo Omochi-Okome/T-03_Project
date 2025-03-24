@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
 import { StyleSheet, View, ScrollView, Text } from 'react-native';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 import MaterialButton from '../components/UI/MaterialButton';
 import { useNoteActions } from '../util/useNoteActions';
 import { Colors } from '../util/styles';
@@ -11,18 +12,10 @@ import { useNavigation } from '@react-navigation/native';
 // 削除ボタンを押下したら、useNoteActionのdeleteMemoを使って削除する
 // 編集ボタンを押下したら、画面遷移する👉MemoScreenの編集画面と統合する
 
-// TODO:編集画面を追加する
-
 const ManagementScreen = () => {
-  const [memos, setMemos] = useState([]);
-  const { readMemo, deleteMemo } = useNoteActions();
-  const navigation = useNavigation();
-
-  useEffect(() => {
-    readMemo((callback) => {
-      setMemos(callback);
-    });
-  }, []);
+  const memos = useSelector((state: RootState) => state.memos);
+  const { deleteMemo } = useNoteActions();
+  const navigation = useNavigation<any>();
 
   return (
     <ScrollView style={styles.container}>
@@ -95,7 +88,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   infoTitle: {
-    fontSize: 14,
+    fontSize: 13,
     color: Colors.label,
     marginBottom: 6,
   },

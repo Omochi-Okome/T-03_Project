@@ -3,23 +3,27 @@ import { Keyboard, StyleSheet, TextInput, TouchableWithoutFeedback, View } from 
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import MaterialButton from '../components/UI/MaterialButton';
-import EditMemoModal from '../components/Modal/EditMemoModal';
 import { useNoteActions } from '../util/useNoteActions';
 
 import { Colors } from '../util/styles';
 
-const MemoScreen = ({ id, title, content }) => {
-  const [memo, setMemo] = useState(content);
-  const [modalVisible, setModalVisible] = useState(false);
-  const navigation = useNavigation();
+type MemoScreenProps = {
+  id: string;
+  title: string;
+  content: string;
+};
+
+const MemoScreen: React.FC<MemoScreenProps> = ({ id, title, content }) => {
+  const [memo, setMemo] = useState<string>(content);
+  const navigation = useNavigation<any>();
 
   const { deleteMemo, resetMemo } = useNoteActions();
-  
+
   const editMemo = () => {
     navigation.navigate('EditMemo', { id, title, content });
   };
 
-  const deleteData = async (id) => {
+  const deleteData = async (id: string): Promise<void> => {
     deleteMemo(id);
   };
 
@@ -59,13 +63,6 @@ const MemoScreen = ({ id, title, content }) => {
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
         <View>
-          <EditMemoModal
-            id={id}
-            title={title}
-            content={content}
-            modalVisible={modalVisible}
-            setModalVisible={setModalVisible}
-          />
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={styles.textInputContainer}>
               <TextInput
@@ -99,10 +96,6 @@ const styles = StyleSheet.create({
   textinput: {
     fontSize: 22,
     fontWeight: 'bold',
-  },
-  modalContainer: {
-    flex: 1,
-    marginTop: 22,
   },
 });
 

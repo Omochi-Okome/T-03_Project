@@ -11,14 +11,14 @@ import { Pressable, Text, GestureResponderEvent } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 type MaterialButtonProps = {
-  color: string;
-  style: object;
+  color?: string;
+  style?: object;
   onPress: (event: GestureResponderEvent) => void;
   iconName: keyof typeof MaterialIcons.glyphMap;
   iconSize: number;
   iconColor: string;
-  title: string;
-  fontSize: number;
+  title?: string;
+  fontSize?: number;
 };
 
 const MaterialButton = ({

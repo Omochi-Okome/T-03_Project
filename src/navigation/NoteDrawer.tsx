@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 import AddNoteScreen from '../screens/AddNoteScreen';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import ManagementScreen from '../screens/ManagementScreen';
@@ -7,19 +9,12 @@ import MemoScreen from '../screens/MemoScreen';
 import NoteScreen from '../screens/NoteScreen';
 import { useNoteActions } from '../util/useNoteActions';
 import { Colors } from '../util/styles';
+import { Memo } from '../store/memoSlice';
 
 const Drawer = createDrawerNavigator();
 
 const NoteDrawer = () => {
-  const [drawers, setDrawers] = useState([]);
-  const { readMemo } = useNoteActions();
-
-  useEffect(() => {
-    const unsubscribe = readMemo((memos) => {
-      setDrawers(memos);
-    });
-    return () => unsubscribe();
-  }, []);
+  const memos: Memo[] = useSelector((state: RootState) => state.memos);
 
   return (
     <Drawer.Navigator
@@ -69,7 +64,7 @@ const NoteDrawer = () => {
           ),
         }}
       />
-      {drawers.map((drawer) => (
+      {memos.map((drawer) => (
         <Drawer.Screen
           key={drawer.id}
           name={drawer.title || `タイトルなし-${drawer.id}`}
