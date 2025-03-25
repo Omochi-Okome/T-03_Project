@@ -149,6 +149,8 @@ export const useNoteActions = (onChange?: Function) => {
   const updateMemo = async (id: string, newTitle: string, newContent: string) => {
     const allowed = await checkProhibitedTitle(newTitle);
 
+    console.log('id:', id, 'newTitle:', newTitle, 'newContent:', newContent);
+
     // 禁止用語リストに該当したら処理中止
     if (!allowed) {
       Alert.alert('エラー', 'このタイトルは使用できません');

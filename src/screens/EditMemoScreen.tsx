@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -27,11 +27,10 @@ const EditMemoScreen: React.FC<EditMemoScreenProps> = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const { id, title, content } = route.params as EditMemoScreenProps;
-  const [newTitle, setNewTitle] = useState<string>(title);
-  const [newContent, setNewContent] = useState<string>(content);
+  const newTitleRef = useRef<string>(title);
+  const newContentRef = useRef<string>(content);
 
-  console.log('newTitle', title);
-  console.log('newContent', content);
+  console.log('動作チェック ~ inEditMemoScreen.tsx');
 
   const { updateMemo } = useNoteActions();
 
@@ -57,27 +56,33 @@ const EditMemoScreen: React.FC<EditMemoScreenProps> = () => {
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.titleInput}
-              value={newTitle}
+              defaultValue={newTitleRef.current}
+              // ref={newTitleRef}
               placeholder='タイトルを入力'
               placeholderTextColor={Colors.systemGray}
               maxLength={50}
               returnKeyType='done'
-              onChangeText={(text) => setNewTitle(text)}
+              onChangeText={(text) => {
+                newTitleRef.current = text;
+              }}
             />
             <TextInput
               style={styles.contentInput}
-              value={newContent}
+              defaultValue={newContentRef.current}
+              // ref={newContentRef}
               placeholder='内容を入力'
               placeholderTextColor={Colors.systemGray}
               multiline
               textAlignVertical='top'
-              onChangeText={(text) => setNewContent(text)}
+              onChangeText={(text) => {
+                newContentRef.current = text;
+              }}
             />
           </View>
           <CustomButton
             title='保存'
             onPress={() => {
-              changeMemo(id, newTitle, newContent);
+              changeMemo(id, newTitleRef.current, newContentRef.current);
               navigation.goBack();
             }}
           />
