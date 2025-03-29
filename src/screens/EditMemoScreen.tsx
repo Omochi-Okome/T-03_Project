@@ -15,7 +15,6 @@ import { Colors } from '../util/styles';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 // FIXME:変更後に編集ボタンを押した時、変更前のデータが表示されるバグ
-// TODO:変更がない場合は保存ボタンを無効化する
 
 type EditMemoScreenProps = {
   id: string;
@@ -34,13 +33,13 @@ const EditMemoScreen: React.FC<EditMemoScreenProps> = () => {
 
   const { updateMemo } = useNoteActions();
 
-  function changeMemo(id: string, newTitle: string, newContent: string) {
+  const changeMemo = (id: string, newTitle: string, newContent: string) => {
     // titleとcontentの両方に変更がなければ実行しない
     if (title === newTitle && content === newContent) {
       return;
     }
     updateMemo(id, newTitle, newContent);
-  }
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -57,7 +56,6 @@ const EditMemoScreen: React.FC<EditMemoScreenProps> = () => {
             <TextInput
               style={styles.titleInput}
               defaultValue={newTitleRef.current}
-              // ref={newTitleRef}
               placeholder='タイトルを入力'
               placeholderTextColor={Colors.systemGray}
               maxLength={50}
@@ -69,7 +67,6 @@ const EditMemoScreen: React.FC<EditMemoScreenProps> = () => {
             <TextInput
               style={styles.contentInput}
               defaultValue={newContentRef.current}
-              // ref={newContentRef}
               placeholder='内容を入力'
               placeholderTextColor={Colors.systemGray}
               multiline

@@ -1,33 +1,43 @@
-import { useEffect, useState } from 'react';
-import { Keyboard, View, StyleSheet, TextInput, TouchableWithoutFeedback } from 'react-native';
-import MaterialButton from '../components/UI/MaterialButton';
-import { useNoteActions } from '../util/useNoteActions';
+import { useLayoutEffect, useState } from 'react';
+import {
+  Keyboard,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import { Colors } from '../util/styles';
+import DoneButton from '../components/Button/DoneButton';
+import ResetButton from '../components/Button/ResetButton';
 
 // TODO:Focus状態で、キーボードをオフにできる「完了」ボタンを表示できるよう修正する
 
 const NoteScreen = ({ navigation }) => {
   const [input, setInput] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
 
-  const { resetMemo } = useNoteActions();
-
-  useEffect(() => {
+  useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <MaterialButton
-          style={styles.resetButton}
-          onPress={() => resetMemo(setInput)}
-          iconName='autorenew'
-          iconSize={32}
-          iconColor='black'
-        />
+        <>
+          {isFocused && <DoneButton />}
+          <ResetButton setInput={setInput} />
+        </>
       ),
     });
-  }, [navigation]);
+  }, [navigation, isFocused]);
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <TextInput
           style={styles.textinput}
           onChangeText={(text) => setInput(text)}
@@ -35,8 +45,10 @@ const NoteScreen = ({ navigation }) => {
           multiline
           placeholder='入力...'
           returnKeyLabel='改行'
+          onFocus={handleFocus}
+          onBlur={handleBlur}
         />
-      </View>
+      </ScrollView>
     </TouchableWithoutFeedback>
   );
 };
